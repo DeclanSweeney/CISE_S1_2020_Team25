@@ -30,8 +30,8 @@ class AppNavbar extends Component {
             <NavbarBrand href="/">
               <img
                 src={Logo}
-                width="180"
-                height="90"
+                width="150"
+                height="50"
                 className="d-inline-block align-top"
                 alt="SEER Logo"
               />
