@@ -1,5 +1,5 @@
 {
-  "name": "seer_practice_project",
+  "name": "seer",
   "version": "1.0.0",
   "description": "SEER Project for SE2020 built with MERN stack",
   "main": "server.js",
