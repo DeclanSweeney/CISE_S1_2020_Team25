@@ -26,15 +26,9 @@ class AppNavbar extends Component {
     return (
       <div>
         <Navbar color="dark" dark expand="sm" className="mb-5">
-          <Container>
+          <Container fluid>
             <NavbarBrand href="/">
-              <img
-                src={Logo}
-                width="150"
-                height="50"
-                className="d-inline-block align-top"
-                alt="SEER Logo"
-              />
+              <img src={Logo} width="150" height="50" className="d-inline-block align-top" alt="SEER Logo" />
             </NavbarBrand>
             <NavbarToggler onClick={this.toggle} />
             <Collapse isOpen={this.state.isOpen} navbar>
