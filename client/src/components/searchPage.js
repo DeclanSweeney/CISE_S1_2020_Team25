@@ -1,10 +1,19 @@
 import React, { Component } from "react";
-import { Row, Col, FormGroup, Label, Input, Form, Button } from "reactstrap";
+import { Row, Col, FormGroup, Label, Input, Form, Button, ListGroup, ListGroupItem } from "reactstrap";
+import { CSSTransition, TransitionGroup } from "react-transition-group";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faMinusCircle, faPlusCircle } from '@fortawesome/free-solid-svg-icons'
+import { connect } from "react-redux";
+import { getArticles } from "../actions/articleActions";
+import PropTypes from "prop-types";
 
 class SearchPage extends Component {
+  componentDidMount() {
+    this.props.getArticles();
+  }
+  
   render() {
+    const { articles } = this.props.article;
     return (
       <Form>
         <FormGroup>
@@ -61,9 +70,32 @@ class SearchPage extends Component {
         </div>
 
         <Button color="primary">Search</Button>
+
+        <hr />
+        <ListGroup>
+          <TransitionGroup className="articles-list">
+            {articles.map(({ _id, title, author }) => (
+              <CSSTransition key={_id} timeout={500} classNames="fade">
+                <ListGroupItem>
+                  {title} by {author}
+                </ListGroupItem>
+              </CSSTransition>
+            ))}
+          </TransitionGroup>
+        </ListGroup>
       </Form>
     );
   }
 }
 
-export default SearchPage;
+SearchPage.propTypes = {
+  getArticles: PropTypes.func.isRequired,
+  article: PropTypes.object.isRequired,
+};
+
+//Uses item: as that is what it was set to in reducers
+const mapStateToProps = (state) => ({
+  article: state.article,
+});
+
+export default connect(mapStateToProps, { getArticles })(SearchPage);
