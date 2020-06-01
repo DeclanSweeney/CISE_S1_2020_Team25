@@ -3,11 +3,11 @@ const Schema = mongoose.Schema;
 
 //Create Schema
 const ArticleSchema = new Schema({
-    name: {
+    title: {
         type: String,
         required: true
     },
-    author: {
+    authors: {
         type: Array,
         required: true
     },
