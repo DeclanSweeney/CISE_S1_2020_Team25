@@ -7,18 +7,26 @@ import { getArticles } from "../actions/articleActions";
 import PropTypes from "prop-types";
 
 class SearchPage extends Component {
-  componentDidMount() {
-    this.props.getArticles();
-  }
+  onChange = (e) => {
+    this.setState({ [e.target.name]: e.target.value });
+  };
+
+  onSubmit = (e) => {
+    e.preventDefault();
+
+    const params = { title: this.state.title };
+
+    this.props.getArticles(params);
+  };
 
   render() {
     const { articles } = this.props.article;
     return (
       <div>
-        <Form>
+        <Form onSubmit={this.onSubmit}>
           <FormGroup>
             <Label>Description</Label>
-            <Input type="text" name="description" placeholder="Descrption" />
+            <Input type="text" name="title" placeholder="Descrption" onChange={this.onChange} required />
           </FormGroup>
 
           <Row>
@@ -68,9 +76,8 @@ class SearchPage extends Component {
               </div>
             </FormGroup>
           </div>
+          <Button color="primary">Search</Button>
         </Form>
-
-        <Button color="primary">Search</Button>
 
         <hr />
         <Table className="articles-list">

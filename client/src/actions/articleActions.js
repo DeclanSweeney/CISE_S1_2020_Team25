@@ -1,9 +1,9 @@
 import { GET_ITEMS, ITEMS_LOADING } from "./types";
 import axios from "axios";
 
-export const getArticles = () => (dispatch) => {
+export const getArticles = (params) => (dispatch) => {
   dispatch(setArticlesLoading());
-  axios.get("/api/articles").then((res) =>
+  axios.get("/api/articles", params).then((res) =>
     dispatch({
       type: GET_ITEMS,
       payload: res.data,
