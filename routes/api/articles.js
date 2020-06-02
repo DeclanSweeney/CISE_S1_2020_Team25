@@ -7,9 +7,9 @@ const Article = require('../../models/Article');
 //@desc Get All Items
 //@access Public
 router.get('/', (req, res) => {
-    Article.find()
-    .sort({ date: -1})
-    .then(articles => res.json(articles));
+    const title = req.query.title;
+    var condition = title ? { title: { $regex: new RegExp(title), $options: "i" } } : {};
+    Article.find(condition).then(articles => res.json(articles));
 });
 
 module.exports = router;
