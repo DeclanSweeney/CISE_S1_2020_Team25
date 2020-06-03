@@ -48,6 +48,13 @@ class SearchPage extends Component {
   onSubmit = (e) => {
     e.preventDefault();
 
+    // const transactions = Transaction.find({
+    //   date_paid: {
+    //         $gte: new Date(new Date(startDate).setHours(00, 00, 00))
+    //         $lt: new Date(new Date(endDate).setHours(23, 59, 59))
+    //          }
+    //   }).sort({ date_paid: 'asc'})
+    // }
     // var fieldName = this.state.nameOfField;
     // var fieldValue = this.state.fieldValue;
 
@@ -100,6 +107,7 @@ class SearchPage extends Component {
 
     const params = this.state;
 
+    console.log(params);
     this.props.getArticles(params);
   };
 
@@ -122,13 +130,23 @@ class SearchPage extends Component {
             <Col>
               <FormGroup>
                 <Label>Date from</Label>
-                <Input type="date" name="date" placeholder="Date Published" />
+                <Input
+                  type="date"
+                  name="dateFrom"
+                  placeholder="Date Published"
+                  onChange={this.onChange}
+                />
               </FormGroup>
             </Col>
             <Col>
               <FormGroup>
                 <Label>to</Label>
-                <Input type="date" name="date" placeholder="Date Published" />
+                <Input
+                  type="date"
+                  name="dateTo"
+                  placeholder="Date Published"
+                  onChange={this.onChange}
+                />
               </FormGroup>
             </Col>
           </Row>
@@ -197,14 +215,16 @@ class SearchPage extends Component {
               <th>Title</th>
               <th>Authors</th>
               <th>Journal</th>
+              <th>Date</th>
             </tr>
           </thead>
           <tbody>
-            {articles.map(({ _id, title, authors, journal }) => (
+            {articles.map(({ _id, title, authors, journal, date }) => (
               <tr key={_id}>
                 <td key={title}>{title}</td>
                 <td key={authors}>{authors.join(", ")}</td>
                 <td key={journal}>{journal}</td>
+                <td key={date}>{("0" + new Date(date).getDate()).slice(-2)}/{("0" + (new Date(date).getMonth() + 1)).slice(-2)}/{new Date(date).getFullYear()}</td>
               </tr>
             ))}
           </tbody>
@@ -219,7 +239,6 @@ SearchPage.propTypes = {
   article: PropTypes.object.isRequired,
 };
 
-//Uses item: as that is what it was set to in reducers
 const mapStateToProps = (state) => ({
   article: state.article,
 });
