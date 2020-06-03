@@ -26,7 +26,7 @@ class SearchPage extends Component {
         <Form onSubmit={this.onSubmit}>
           <FormGroup>
             <Label>Title</Label>
-            <Input type="text" name="title" placeholder="Descrption" onChange={this.onChange} />
+            <Input type="text" name="title" placeholder="Title" onChange={this.onChange} />
           </FormGroup>
 
           <Row>
@@ -68,6 +68,9 @@ class SearchPage extends Component {
                       </Input>
                     </FormGroup>
                   </Col>
+                  <Col>
+                    <Input type="text" name="value[]" placeholder="Value" />
+                  </Col>
                   <Col md="1">
                     <Button color="danger"><FontAwesomeIcon icon={faMinusCircle} /></Button>
                     <Button color="success"><FontAwesomeIcon icon={faPlusCircle} /></Button>
@@ -76,29 +79,29 @@ class SearchPage extends Component {
               </div>
             </FormGroup>
           </div>
-          <Button color="primary">Search</Button>
+        <Button color="primary">Search</Button>
         </Form>
 
-        <hr />
-        <Table className="articles-list">
-          <thead>
-            <tr>
-              <th>Title</th>
-              <th>Authors</th>
-              <th>Journal</th>
+      <hr />
+      <Table className="articles-list">
+        <thead>
+          <tr>
+            <th>Title</th>
+            <th>Authors</th>
+            <th>Journal</th>
+          </tr>
+        </thead>
+        <tbody>
+          {articles.map(({ _id, title, authors, journal }) => (
+            <tr key={_id}>
+              <td key={title}>{title}</td>
+              <td key={authors}>{authors.join(", ")}</td>
+              <td key={journal}>{journal}</td>
             </tr>
-          </thead>
-          <tbody>
-            {articles.map(({ _id, title, authors, journal }) => (
-              <tr key={_id}>
-                <td key={title}>{title}</td>
-                <td key={authors}>{authors.join(", ")}</td>
-                <td key={journal}>{journal}</td>
-              </tr>
-            ))}
-          </tbody>
-        </Table>
-      </div>
+          ))}
+        </tbody>
+      </Table>
+      </div >
     );
   }
 }
