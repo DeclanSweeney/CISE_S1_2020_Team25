@@ -5,16 +5,31 @@ import { faMinusCircle, faPlusCircle } from '@fortawesome/free-solid-svg-icons'
 import { connect } from "react-redux";
 import { getArticles } from "../actions/articleActions";
 import PropTypes from "prop-types";
+import jQuery from 'jquery';
+
+jQuery(document).ready(function ($) {
+  const max = 5;
+  const min = 1;
+  var count = 1;
+
+  $(document).on("click", ".addBtn", function (e) {
+    e.preventDefault();
+    if (count < max) {
+      $('.constraint:first').clone().appendTo('.constraints');
+      count++;
+    }
+  });
+
+  $(document).on("click", ".removeBtn", function (e) {
+    e.preventDefault();
+    if (count > min) {
+      $(this).parent('div').parent('div').parent('div').parent('div').remove();
+      count--;
+    }
+  })
+});
 
 class SearchPage extends Component {
-  addFields = () => {
-    console.log("Add");
-  };
-  
-  removeFields = () => {
-    console.log("Remove");
-  };
-
   onChange = (e) => {
     this.setState({ [e.target.name]: e.target.value });
   };
@@ -53,8 +68,8 @@ class SearchPage extends Component {
           </Row>
 
           <div className="constraints">
-            <FormGroup>
-              <div className="constraint">
+            <div className="constraint">
+              <FormGroup>
                 <Row>
                   <Col>
                     <FormGroup>
@@ -80,35 +95,39 @@ class SearchPage extends Component {
                     <Input type="text" name="value[]" placeholder="Value" />
                   </Col>
                   <Col md="1">
-                    <Button color="danger"><FontAwesomeIcon icon={faMinusCircle} onClick={this.removeFields} /></Button>
-                    <Button color="success"><FontAwesomeIcon icon={faPlusCircle} onClick={this.addFields} /></Button>
+                    <Button color="danger" className="removeBtn"><FontAwesomeIcon icon={faMinusCircle} /></Button>
+                    <Button color="success" className="addBtn"><FontAwesomeIcon icon={faPlusCircle} /></Button>
                   </Col>
                 </Row>
-              </div>
-            </FormGroup>
+              </FormGroup>
+            </div>
+
+            <div className="more-constraint">
+
+            </div>
           </div>
-        <Button color="primary">Search</Button>
+          <Button color="primary">Search</Button>
         </Form>
 
-      <hr />
-      <Table className="articles-list">
-        <thead>
-          <tr>
-            <th>Title</th>
-            <th>Authors</th>
-            <th>Journal</th>
-          </tr>
-        </thead>
-        <tbody>
-          {articles.map(({ _id, title, authors, journal }) => (
-            <tr key={_id}>
-              <td key={title}>{title}</td>
-              <td key={authors}>{authors.join(", ")}</td>
-              <td key={journal}>{journal}</td>
+        <hr />
+        <Table className="articles-list">
+          <thead>
+            <tr>
+              <th>Title</th>
+              <th>Authors</th>
+              <th>Journal</th>
             </tr>
-          ))}
-        </tbody>
-      </Table>
+          </thead>
+          <tbody>
+            {articles.map(({ _id, title, authors, journal }) => (
+              <tr key={_id}>
+                <td key={title}>{title}</td>
+                <td key={authors}>{authors.join(", ")}</td>
+                <td key={journal}>{journal}</td>
+              </tr>
+            ))}
+          </tbody>
+        </Table>
       </div >
     );
   }
