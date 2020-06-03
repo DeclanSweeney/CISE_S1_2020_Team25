@@ -3,7 +3,7 @@ import axios from "axios";
 
 export const getArticles = (params) => (dispatch) => {
   dispatch(setArticlesLoading());
-  axios.get("/api/articles", params).then((res) =>
+  axios.get("/api/articles", { params: params }).then((res) =>
     dispatch({
       type: GET_ITEMS,
       payload: res.data,

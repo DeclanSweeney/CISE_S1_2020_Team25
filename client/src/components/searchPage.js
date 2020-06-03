@@ -14,7 +14,7 @@ class SearchPage extends Component {
   onSubmit = (e) => {
     e.preventDefault();
 
-    const params = { title: this.state.title };
+    const params = this.state;
 
     this.props.getArticles(params);
   };
@@ -25,8 +25,8 @@ class SearchPage extends Component {
       <div>
         <Form onSubmit={this.onSubmit}>
           <FormGroup>
-            <Label>Description</Label>
-            <Input type="text" name="title" placeholder="Descrption" onChange={this.onChange} required />
+            <Label>Title</Label>
+            <Input type="text" name="title" placeholder="Descrption" onChange={this.onChange} />
           </FormGroup>
 
           <Row>
@@ -90,10 +90,10 @@ class SearchPage extends Component {
           </thead>
           <tbody>
             {articles.map(({ _id, title, authors, journal }) => (
-              <tr id={_id}>
-                <td>{title}</td>
-                <td>{authors}</td>
-                <td>{journal}</td>
+              <tr key={_id}>
+                <td key={title}>{title}</td>
+                <td key={authors}>{authors.join(", ")}</td>
+                <td key={journal}>{journal}</td>
               </tr>
             ))}
           </tbody>
