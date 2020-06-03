@@ -7,10 +7,11 @@ import { getArticles } from "../actions/articleActions";
 import PropTypes from "prop-types";
 import jQuery from 'jquery';
 
+var count = 1;
+
 jQuery(document).ready(function ($) {
   const max = 5;
   const min = 1;
-  var count = 1;
 
   $(document).on("click", ".addBtn", function (e) {
     e.preventDefault();
@@ -31,11 +32,82 @@ jQuery(document).ready(function ($) {
 
 class SearchPage extends Component {
   onChange = (e) => {
+    console.log({ [e.target.name]: e.target.value });
     this.setState({ [e.target.name]: e.target.value });
   };
 
   onSubmit = (e) => {
     e.preventDefault();
+
+
+    // var fieldName = this.state.nameOfField;
+    // var fieldValue = this.state.fieldValue;
+
+    var data = jQuery('form').serializeArray();
+
+    console.log(JSON.stringify(data[3]));
+
+    console.log(count);
+
+
+
+
+    // for (var )
+    // for (var i = 0; i < 3; i++) {
+    //   console.log(data[i]);
+    // }
+
+
+    console.log("serialize: " + jQuery('form').serialize());
+    console.log("\r\n");
+    console.log("serializeArray: " + JSON.stringify(jQuery('form').serializeArray()));
+
+/*
+    [{ "name": "title", "value": "asdadsa" },
+    { "name": "date", "value": "" },
+    { "name": "date", "value": "" },
+    { "name": "nameOfField", "value": "Title" },
+    { "name": "select", "value": "Contains" },
+    { "name": "fieldValue", "value": "" }]
+*/
+
+
+if (data.name == "nameOfField") {
+  
+}
+
+
+    // count = 1;
+    // count+3;
+
+
+
+    // data.forEach(function (e) {
+    //   if (e.name == "nameOfField") {
+
+    //   }
+
+
+
+
+
+
+
+
+
+    // });
+
+    // {
+    //   { title: "Hello" },
+    //   { date: "date" },
+    //   { [NAMEOFFIELD]: [FIELDVALUE]}
+    // }
+
+
+
+
+
+    // const params = {}
 
     const params = this.state;
 
@@ -73,16 +145,16 @@ class SearchPage extends Component {
                 <Row>
                   <Col>
                     <FormGroup>
-                      <Input type="select" name="nameOfField[]">
-                        <option value='Title'>Article Title</option>
-                        <option value='Source'>Article Source</option>
-                        <option value='Author'>Author</option>
+                      <Input type="select" name="nameOfField" onChange={this.onChange}>
+                        <option value='title'>Article Title</option>
+                        <option value='source'>Article Source</option>
+                        <option value='authors'>Author</option>
                       </Input>
                     </FormGroup>
                   </Col>
                   <Col>
                     <FormGroup>
-                      <Input type="select" name="select[]">
+                      <Input type="select" name="select" onChange={this.onChange}>
                         <option value='Contains'>Contains</option>
                         <option value='DoesNotContain'>Does Not Contain</option>
                         <option value='BeginsWIth'>Begins With</option>
@@ -92,7 +164,7 @@ class SearchPage extends Component {
                     </FormGroup>
                   </Col>
                   <Col>
-                    <Input type="text" name="value[]" placeholder="Value" />
+                    <Input type="text" name="fieldValue" placeholder="Value" onChange={this.onChange} />
                   </Col>
                   <Col md="1">
                     <Button color="danger" className="removeBtn"><FontAwesomeIcon icon={faMinusCircle} /></Button>
