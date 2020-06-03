@@ -7,6 +7,14 @@ import { getArticles } from "../actions/articleActions";
 import PropTypes from "prop-types";
 
 class SearchPage extends Component {
+  addFields = () => {
+    console.log("Add");
+  };
+  
+  removeFields = () => {
+    console.log("Remove");
+  };
+
   onChange = (e) => {
     this.setState({ [e.target.name]: e.target.value });
   };
@@ -72,8 +80,8 @@ class SearchPage extends Component {
                     <Input type="text" name="value[]" placeholder="Value" />
                   </Col>
                   <Col md="1">
-                    <Button color="danger"><FontAwesomeIcon icon={faMinusCircle} /></Button>
-                    <Button color="success"><FontAwesomeIcon icon={faPlusCircle} /></Button>
+                    <Button color="danger"><FontAwesomeIcon icon={faMinusCircle} onClick={this.removeFields} /></Button>
+                    <Button color="success"><FontAwesomeIcon icon={faPlusCircle} onClick={this.addFields} /></Button>
                   </Col>
                 </Row>
               </div>
