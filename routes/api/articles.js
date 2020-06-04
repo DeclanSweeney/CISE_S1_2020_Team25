@@ -26,11 +26,13 @@ router.get("/", (req, res) => {
 //@desc Get All Items
 //@access Public
 router.post("/", (req, res) => {
+  const { title, authors, journal, date } = req.body;
+
   const article = new Article({
-    title: req.body.title,
-    authors: req.body.authors,
-    journal: req.body.journal,
-    date: req.body.date
+    title,
+    authors,
+    journal,
+    date
   })
 
   article.save().then(item => res.json(item));
