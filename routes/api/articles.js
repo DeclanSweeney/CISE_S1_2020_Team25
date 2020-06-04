@@ -19,9 +19,21 @@ router.get("/", (req, res) => {
     conditions.date = { $gte: new Date(dateFrom), $lt: new Date(dateTo) };
   }
 
-  console.log(JSON.stringify(conditions));
-
   Article.find(conditions).then((articles) => res.json(articles));
+});
+
+//@route GET api/items
+//@desc Get All Items
+//@access Public
+router.post("/", (req, res) => {
+  const article = new Article({
+    title: req.body.title,
+    authors: req.body.authors,
+    journal: req.body.journal,
+    date: req.body.date
+  })
+
+  article.save().then(item => res.json(item));
 });
 
 module.exports = router;
