@@ -3,6 +3,8 @@ import AppNavbar from "./components/AppNavbar";
 import SearchPage from "./components/SearchPage";
 import { Container } from "reactstrap";
 
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+
 import { Provider } from "react-redux";
 import store from "./store";
 
@@ -16,7 +18,11 @@ class App extends Component {
         <div className="App">
           <AppNavbar />
           <Container fluid>
-            <SearchPage />
+            <Router>
+              <Switch>
+                <Route exact path="/" component={SearchPage} />
+              </Switch>
+            </Router>
           </Container>
         </div>
       </Provider>
