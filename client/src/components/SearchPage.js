@@ -16,8 +16,11 @@ import { getArticles } from "../actions/articleActions";
 import PropTypes from "prop-types";
 import jQuery from "jquery";
 import BootstrapTable from "react-bootstrap-table-next";
+import ToolkitProvider, { ColumnToggle } from "react-bootstrap-table2-toolkit";
+
 import { columns, defaultSorted } from "./SearchTable";
 
+const { ToggleList } = ColumnToggle;
 var count = 1;
 
 jQuery(document).ready(function ($) {
@@ -167,12 +170,28 @@ class SearchPage extends Component {
 
         <hr />
 
-        <BootstrapTable
+        {/* <BootstrapTable
           keyField="_id"
           data={articles}
           columns={columns}
           defaultSorted={defaultSorted}
-        />
+        /> */}
+
+        {/* Table with toggle columns */}
+        <ToolkitProvider
+          keyField="id"
+          data={articles}
+          columns={columns}
+          columnToggle
+        >
+          {(props) => (
+            <div>
+              <ToggleList {...props.columnToggleProps} />
+              <hr />
+              <BootstrapTable {...props.baseProps} />
+            </div>
+          )}
+        </ToolkitProvider>
       </div>
     );
   }
