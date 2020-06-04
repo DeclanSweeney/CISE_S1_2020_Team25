@@ -84,7 +84,7 @@ class SearchPage extends Component {
     { "name": "fieldValue", "value": "" }]
 */
 
-    if (data.name == "nameOfField") {
+    if (data.name === "nameOfField") {
     }
 
     // count = 1;

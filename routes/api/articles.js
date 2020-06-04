@@ -26,6 +26,8 @@ router.get("/", (req, res) => {
 //@desc Get All Items
 //@access Public
 router.post("/", (req, res) => {
+  console.log(req.body);
+
   const { title, authors, journal, date } = req.body;
 
   const article = new Article({
