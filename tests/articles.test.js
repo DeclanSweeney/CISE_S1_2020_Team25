@@ -12,4 +12,20 @@ describe('Articles route', () => {
             });
         });
     });
+
+    describe('post /articles', () => {
+        it('should create a new article', (done) => {
+            let article = {
+                title: "Unit Test",
+                authors: ["Sinan"],
+                journal: "www.sinan.com",
+                date: "2020-05-03T16:00:00.000+00:00"
+            };
+
+            request(app).post('/api/articles').send(article).end((err, res) => {
+                expect(res.status).to.eq(200);
+                done()
+            });
+        });
+    });
 });
