@@ -18,7 +18,7 @@ const ArticleSchema = new Schema({
   date: {
     type: Date,
     required: true,
-  },
+  }
 });
 
 module.exports = Article = mongoose.model("Article", ArticleSchema);
