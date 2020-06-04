@@ -15,7 +15,12 @@ import { connect } from "react-redux";
 import { getArticles } from "../actions/articleActions";
 import PropTypes from "prop-types";
 import jQuery from "jquery";
+import BootstrapTable from "react-bootstrap-table-next";
+import ToolkitProvider, { ColumnToggle } from "react-bootstrap-table2-toolkit";
 
+import { columns, defaultSorted } from "./SearchTable";
+
+const { ToggleList } = ColumnToggle;
 var count = 1;
 
 jQuery(document).ready(function ($) {
@@ -48,26 +53,11 @@ class SearchPage extends Component {
   onSubmit = (e) => {
     e.preventDefault();
 
-    // const transactions = Transaction.find({
-    //   date_paid: {
-    //         $gte: new Date(new Date(startDate).setHours(00, 00, 00))
-    //         $lt: new Date(new Date(endDate).setHours(23, 59, 59))
-    //          }
-    //   }).sort({ date_paid: 'asc'})
-    // }
-    // var fieldName = this.state.nameOfField;
-    // var fieldValue = this.state.fieldValue;
-
     var data = jQuery("form").serializeArray();
 
     console.log(JSON.stringify(data[3]));
 
     console.log(count);
-
-    // for (var )
-    // for (var i = 0; i < 3; i++) {
-    //   console.log(data[i]);
-    // }
 
     console.log("serialize: " + jQuery("form").serialize());
     console.log("\r\n");
@@ -75,40 +65,10 @@ class SearchPage extends Component {
       "serializeArray: " + JSON.stringify(jQuery("form").serializeArray())
     );
 
-    /*
-    [{ "name": "title", "value": "asdadsa" },
-    { "name": "date", "value": "" },
-    { "name": "date", "value": "" },
-    { "name": "nameOfField", "value": "Title" },
-    { "name": "select", "value": "Contains" },
-    { "name": "fieldValue", "value": "" }]
-*/
-
-    if (data.name === "nameOfField") {
-    }
-
-    // count = 1;
-    // count+3;
-
-    // data.forEach(function (e) {
-    //   if (e.name == "nameOfField") {
-
-    //   }
-
-    // });
-
-    // {
-    //   { title: "Hello" },
-    //   { date: "date" },
-    //   { [NAMEOFFIELD]: [FIELDVALUE]}
-    // }
-
-    // const params = {}
-
     const params = this.state;
 
     console.log(params);
-    this.props.getArticles(params);
+    console.log(this.props.getArticles(params));
   };
 
   render() {
@@ -209,26 +169,29 @@ class SearchPage extends Component {
         </Form>
 
         <hr />
-        <Table className="articles-list">
-          <thead>
-            <tr>
-              <th>Title</th>
-              <th>Authors</th>
-              <th>Journal</th>
-              <th>Date</th>
-            </tr>
-          </thead>
-          <tbody>
-            {articles.map(({ _id, title, authors, journal, date }) => (
-              <tr key={_id}>
-                <td key={title}>{title}</td>
-                <td key={authors}>{authors.join(", ")}</td>
-                <td key={journal}>{journal}</td>
-                <td key={date}>{("0" + new Date(date).getDate()).slice(-2)}/{("0" + (new Date(date).getMonth() + 1)).slice(-2)}/{new Date(date).getFullYear()}</td>
-              </tr>
-            ))}
-          </tbody>
-        </Table>
+
+        {/* <BootstrapTable
+          keyField="_id"
+          data={articles}
+          columns={columns}
+          defaultSorted={defaultSorted}
+        /> */}
+
+        {/* Table with toggle columns */}
+        <ToolkitProvider
+          keyField="id"
+          data={articles}
+          columns={columns}
+          columnToggle
+        >
+          {(props) => (
+            <div>
+              <ToggleList {...props.columnToggleProps} />
+              <hr />
+              <BootstrapTable {...props.baseProps} />
+            </div>
+          )}
+        </ToolkitProvider>
       </div>
     );
   }
