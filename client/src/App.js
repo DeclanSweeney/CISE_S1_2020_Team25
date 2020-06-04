@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import AppNavbar from "./components/AppNavbar";
 import SearchPage from "./components/SearchPage";
+import NewArticle from "./components/NewArticle";
 import { Container } from "reactstrap";
 
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
@@ -15,16 +16,15 @@ class App extends Component {
   render() {
     return (
       <Provider store={store}>
-        <div className="App">
-          <AppNavbar />
-          <Container fluid>
-            <Router>
-              <Switch>
-                <Route exact path="/" component={SearchPage} />
-              </Switch>
-            </Router>
-          </Container>
-        </div>
+        <AppNavbar />
+        <Container fluid>
+          <Router>
+            <Switch>
+              <Route exact path="/" component={SearchPage} />
+              <Route exact path="/newArticle" component={NewArticle} />
+            </Switch>
+          </Router>
+        </Container>
       </Provider>
     );
   }
