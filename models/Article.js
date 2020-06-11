@@ -7,16 +7,20 @@ const ArticleSchema = new Schema({
     type: String,
     required: true,
   },
-  authors: {
-    type: Array,
+  author: {
+    type: String,
     required: true,
   },
   journal: {
     type: String,
     required: true,
   },
-  date: {
-    type: Date,
+  month: {
+    type: String,
+    required: true,
+  },
+  year: {
+    type: Number,
     required: true,
   }
 });

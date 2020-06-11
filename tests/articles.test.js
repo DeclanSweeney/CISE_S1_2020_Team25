@@ -16,10 +16,11 @@ describe('Articles route', () => {
     describe('post /articles', () => {
         it('should create a new article', () => {
             let article = {
-                title: "Unit Test",
-                authors: ["Sinan"],
+                title: "Unit Test 2112313123",
+                author: "Sinan; Declan",
                 journal: "www.sinan.com",
-                date: "2020-05-03T16:00:00.000+00:00"
+                month: "June",
+                year: 2020
             };
             
             request(app).post('/api/articles').send(article).end((err, res) => {
