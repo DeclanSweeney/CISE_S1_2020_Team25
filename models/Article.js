@@ -15,12 +15,12 @@ const ArticleSchema = new Schema({
     type: String,
     required: true,
   },
-  year: {
-    type: Number,
-    required: true,
-  },
   month: {
     type: String,
+    required: true,
+  },
+  year: {
+    type: Number,
     required: true,
   }
 });

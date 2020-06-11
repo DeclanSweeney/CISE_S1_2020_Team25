@@ -11,6 +11,7 @@ const app = express();
 //Bodyparser Middleware
 app.use(bodyParser.json());
 
+var db;
 //Serve static assets if in production
 if (process.env.NODE_ENV === "production") {
   db = process.env.MONGO_URI_PROD;
@@ -21,7 +22,7 @@ if (process.env.NODE_ENV === "production") {
     res.sendFile(path.resolve(__dirname, "client", "build", "index.html"));
   });
 } else if (process.env.NODE_ENV === "development") {
-  db = process.env.MONGO_URI_PROD;
+  db = process.env.MONGO_URI_UAT;
 } else {  
   db = process.env.MONGO_URI_UAT;
 }
@@ -34,8 +35,6 @@ mongoose
 
 //User Routes
 app.use("/api/articles", articles);
-
-var db;
 
 //Connect to port 5000 unless deployed
 const port = process.env.PORT || 5000;
