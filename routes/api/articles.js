@@ -7,16 +7,16 @@ const Article = require("../../models/Article");
 //@desc Get All Items
 //@access Public
 router.get("/", (req, res) => {
-  const title = req.query.title;
-  const dateFrom = req.query.dateFrom;
-  const dateTo = req.query.dateTo;
-
-  var conditions = new Object();
-  if (title) {
-    conditions.title = { $regex: new RegExp(title), $options: "i" };
-  }
-  if (dateFrom && dateTo) {
-    conditions.date = { $gte: new Date(dateFrom), $lt: new Date(dateTo) };
+  var obj = req.query;
+  var conditions = {};
+  for (var key of Object.keys(obj)) {
+    var stringified = JSON.stringify(obj);
+    const regex = new RegExp(JSON.parse(stringified)[key].slice(1, -1));
+    if (regex[0] === "\"") {
+      conditions[key] = regex;
+    } else {
+      conditions[key] = obj[key];
+    }
   }
 
   Article.find(conditions).then((articles) => res.json(articles));

@@ -35,29 +35,49 @@ jQuery(document).ready(function ($) {
 class SearchPage extends Component {
   onChange = (e) => {
     console.log({ [e.target.name]: e.target.value });
-    this.setState({ [e.target.name]: e.target.value });
   };
 
   onSubmit = (e) => {
     e.preventDefault();
 
-    var data = jQuery("form").serializeArray();
+    const params = jQuery("form").serializeArray();
 
-    console.log(JSON.stringify(data[3]));
+    var parameters = {};
+    var pos;
+    // for (pos = 0; pos < 3; pos++) {
+    //   var val = params[pos].value;
+    //   if ((val !== null) && (val !== "")) {
+    //     parameters[params[pos].name] = params[pos].value;
+    //   }
+    // }
 
-    console.log(count);
+    for (var index = 0; index < count; index += 3) {
+      var nameOfField = params[index + 3].value;
+      var option = params[index + 4].value;
+      var fieldValue = params[index + 5].value;
 
-    console.log("serialize: " + jQuery("form").serialize());
-    console.log("\r\n");
-    console.log(
-      "serializeArray: " + JSON.stringify(jQuery("form").serializeArray())
-    );
+      if ((fieldValue !== null) && (fieldValue !== "")) {
 
-    const params = this.state;
+        var filter
 
-    console.log(params);
+        if (option === "Contains") {
+          filter = "" + new RegExp(".*" + fieldValue + ".*");
+        } else if (option === "DoesNotContain") {
+          filter = "" + new RegExp("^((?!" + fieldValue + ").)*$");
+        } else if (option === "BeginsWIth") {
+          filter = "" + new RegExp("^" + fieldValue);
+        } else if (option === "EndsWith") {
+          filter = "" + new RegExp(fieldValue + "$");
+        } else if (option === "IsEqualTo") {
+          filter = fieldValue;
+        }
 
-    console.log(this.props.getArticles(params));
+        parameters[nameOfField] = filter;
+      }
+    }
+
+    console.log(parameters);
+    this.props.getArticles(parameters);
   };
 
   render() {
@@ -66,11 +86,11 @@ class SearchPage extends Component {
       <div>
         <Form onSubmit={this.onSubmit}>
           <FormGroup>
-            <Label>Title</Label>
+            <Label>Description</Label>
             <Input
               type="text"
-              name="title"
-              placeholder="Title"
+              name="description"
+              placeholder="Description"
               onChange={this.onChange}
             />
           </FormGroup>
@@ -113,7 +133,7 @@ class SearchPage extends Component {
                       >
                         <option value="title">Article Title</option>
                         <option value="source">Article Source</option>
-                        <option value="authors">Author</option>
+                        <option value="author">Author</option>
                       </Input>
                     </FormGroup>
                   </Col>
@@ -121,7 +141,7 @@ class SearchPage extends Component {
                     <FormGroup>
                       <Input
                         type="select"
-                        name="select"
+                        name="option"
                         onChange={this.onChange}
                       >
                         <option value="Contains">Contains</option>

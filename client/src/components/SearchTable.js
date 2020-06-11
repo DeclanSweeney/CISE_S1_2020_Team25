@@ -15,8 +15,18 @@ export const columns = [
     sort: "true",
   },
   {
+    dataField: "volume",
+    text: "Volume",
+    sort: "true",
+  },
+  {
     dataField: "year",
     text: "Published",
+    sort: "true",
+  },
+  {
+    dataField: "pages",
+    text: "Pages",
     sort: "true",
   },
 ];
