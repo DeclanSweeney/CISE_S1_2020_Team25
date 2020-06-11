@@ -15,15 +15,12 @@ const { ToggleList } = ColumnToggle;
 var count = 1;
 
 jQuery(document).ready(function ($) {
-  const max = 5;
   const min = 1;
 
   $(document).on("click", ".addBtn", function (e) {
     e.preventDefault();
-    if (count < max) {
-      $(".constraint:first").clone().appendTo(".constraints");
-      count++;
-    }
+    $(".constraint:first").clone().appendTo(".constraints");
+    count++;
   });
 
   $(document).on("click", ".removeBtn", function (e) {
@@ -59,6 +56,7 @@ class SearchPage extends Component {
     const params = this.state;
 
     console.log(params);
+
     console.log(this.props.getArticles(params));
   };
 
