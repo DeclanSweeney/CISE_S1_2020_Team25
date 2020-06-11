@@ -15,8 +15,8 @@ export const columns = [
     sort: "true",
   },
   {
-    dataField: "date",
-    text: "Date",
+    dataField: "year",
+    text: "Published",
     sort: "true",
   },
 ];
