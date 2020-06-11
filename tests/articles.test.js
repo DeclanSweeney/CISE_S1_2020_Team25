@@ -25,7 +25,6 @@ describe('Articles route', () => {
             
             request(app).post('/api/articles').send(article).end((err, res) => {
                 expect(res.status).to.eq(200);
-                console.log(res);
                 done();
             });
         });

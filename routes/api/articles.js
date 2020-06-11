@@ -36,8 +36,6 @@ router.post("/", (req, res) => {
     year
   });
 
-  console.log(article);
-
   article.save().then(item => res.json(item));
 });
 

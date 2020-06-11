@@ -31,7 +31,7 @@ if (process.env.NODE_ENV === "production") {
 mongoose
   .connect(db)
   .then(() => console.log("MongoDB Connected..."))
-  .catch((err) => console.log(err));
+  .catch((err) => console.error(err));
 
 //User Routes
 app.use("/api/articles", articles);
