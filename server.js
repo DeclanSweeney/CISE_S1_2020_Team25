@@ -23,8 +23,10 @@ if (process.env.NODE_ENV === "production") {
   app.get("*", (req, res) => {
     res.sendFile(path.resolve(__dirname, "client", "build", "index.html"));
   });
-} else {  
+} else {
+  console.log("Else");
   db = process.env.MONGO_URI_UAT;
+  console.log("DB: " + db);
 }
 
 //Connect to Mongo
