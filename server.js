@@ -25,7 +25,7 @@ if (process.env.NODE_ENV === "production") {
   });
 } else {
   console.log("Else");
-  db = process.env.MONGO_URI_UAT;
+  db = MONGO_URI_UAT;
   console.log("DB: " + db);
 }
 
