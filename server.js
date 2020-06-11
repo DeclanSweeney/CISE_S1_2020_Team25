@@ -4,6 +4,9 @@ const bodyParser = require("body-parser");
 const path = require("path");
 require('dotenv').config();
 
+const MONGO_URI_PROD = "mongodb+srv://declan:declan123@mern-seer-poe68.mongodb.net/seer?retryWrites=true&w=majority";
+const MONGO_URI_UAT = "mongodb+srv://declan:declan123@mern-seer-poe68.mongodb.net/test?retryWrites=true&w=majority";
+
 const articles = require("./routes/api/articles");
 
 const app = express();
@@ -11,18 +14,15 @@ const app = express();
 //Bodyparser Middleware
 app.use(bodyParser.json());
 
-var db;
 //Serve static assets if in production
 if (process.env.NODE_ENV === "production") {
-  db = process.env.MONGO_URI_PROD;
+  db = MONGO_URI_PROD;
   //Set static folder
   app.use(express.static("client/build"));
 
   app.get("*", (req, res) => {
     res.sendFile(path.resolve(__dirname, "client", "build", "index.html"));
   });
-} else if (process.env.NODE_ENV === "development") {
-  db = process.env.MONGO_URI_UAT;
 } else {  
   db = process.env.MONGO_URI_UAT;
 }
