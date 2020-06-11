@@ -1,14 +1,5 @@
 import React, { Component } from "react";
-import {
-  Row,
-  Col,
-  FormGroup,
-  Label,
-  Input,
-  Form,
-  Button,
-  Table,
-} from "reactstrap";
+import { Row, Col, FormGroup, Label, Input, Form, Button } from "reactstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faMinusCircle, faPlusCircle } from "@fortawesome/free-solid-svg-icons";
 import { connect } from "react-redux";
@@ -18,7 +9,7 @@ import jQuery from "jquery";
 import BootstrapTable from "react-bootstrap-table-next";
 import ToolkitProvider, { ColumnToggle } from "react-bootstrap-table2-toolkit";
 
-import { columns, defaultSorted } from "./SearchTable";
+import { columns } from "./SearchTable";
 
 const { ToggleList } = ColumnToggle;
 var count = 1;
@@ -169,13 +160,6 @@ class SearchPage extends Component {
         </Form>
 
         <hr />
-
-        {/* <BootstrapTable
-          keyField="_id"
-          data={articles}
-          columns={columns}
-          defaultSorted={defaultSorted}
-        /> */}
 
         {/* Table with toggle columns */}
         <ToolkitProvider

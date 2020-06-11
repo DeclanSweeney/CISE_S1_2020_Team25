@@ -5,7 +5,7 @@ export const columns = [
     sort: "true",
   },
   {
-    dataField: "authors",
+    dataField: "author",
     text: "Author(s)",
     sort: "true",
   },

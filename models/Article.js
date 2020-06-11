@@ -7,8 +7,8 @@ const ArticleSchema = new Schema({
     type: String,
     required: true,
   },
-  authors: {
-    type: Array,
+  author: {
+    type: String,
     required: true,
   },
   journal: {
