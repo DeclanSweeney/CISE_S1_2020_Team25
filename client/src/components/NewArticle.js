@@ -4,6 +4,7 @@ import PropTypes from "prop-types";
 
 import { connect } from "react-redux";
 import { addArticle } from "../actions/articleActions";
+import MonthPicker from "./DatePicker";
 
 class NewArticle extends Component {
   onChange = (e) => {
@@ -15,15 +16,6 @@ class NewArticle extends Component {
 
     var params = this.state;
 
-    // var authors = params.authors;
-    // var array = [];
-    // if (authors.indexOf(",") !== -1) {
-    //   array = authors.split(",");
-    // } else {
-    //   array[0] = authors;
-    // }
-
-    // params.authors = array;
     var pageRange = params.fromPage + "--" + params.toPage;
 
     params.pages = pageRange;
@@ -132,9 +124,9 @@ class NewArticle extends Component {
 
         <FormGroup>
           <Label>Date</Label>
-          <Input type="date" name="date" onChange={this.onChange} required />
+          <br />
+          <MonthPicker />
         </FormGroup>
-
         <Button color="primary">Submit Article</Button>
       </Form>
     );
