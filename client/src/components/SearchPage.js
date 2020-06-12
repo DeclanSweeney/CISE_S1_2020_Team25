@@ -65,15 +65,13 @@ class SearchPage extends Component {
 
     parameters.year = { $gte: staticParams.startDate.getFullYear(), $lte: staticParams.endDate.getFullYear() };
 
-    for (var index = 3; index < count; index += 3) {
-      var nameOfField = dynamicParams[index + 3].value;
-      var option = dynamicParams[index + 4].value;
-      var fieldValue = dynamicParams[index + 5].value;
+    for (var index = 0; index < count; index += 3) {
+      var nameOfField = dynamicParams[index + 1].value;
+      var option = dynamicParams[index + 2].value;
+      var fieldValue = dynamicParams[index + 3].value;
 
       if ((fieldValue !== null) && (fieldValue !== "")) {
-
         var filter
-
         if (option === "Contains") {
           filter = new RegExp(".*" + fieldValue + ".*").toString();
         } else if (option === "DoesNotContain") {
@@ -95,7 +93,7 @@ class SearchPage extends Component {
   };
 
   render() {
-    var monthNames = new Array("January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December");
+    var monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
     var { articles } = this.props.article;
 
     for (var key in articles) {
