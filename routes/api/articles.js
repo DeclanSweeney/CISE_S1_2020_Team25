@@ -7,18 +7,24 @@ const Article = require("../../models/Article");
 //@desc Get All Items
 //@access Public
 router.get("/", (req, res) => {
-  const title = req.query.title;
-  const dateFrom = req.query.dateFrom;
-  const dateTo = req.query.dateTo;
+  var obj = req.query;
+  var conditions = {};
+  for (var key of Object.keys(obj)) {
+    var stringified = JSON.stringify(obj);
 
-  var conditions = new Object();
-  if (title) {
-    conditions.title = { $regex: new RegExp(title), $options: "i" };
-  }
-  if (dateFrom && dateTo) {
-    conditions.date = { $gte: new Date(dateFrom), $lt: new Date(dateTo) };
+    const regex = new RegExp(JSON.parse(stringified)[key].slice(1, -1));
+
+    var val = obj[key];
+    if ((val[0] == '/') && (val[val.length - 1] == '/')) {
+      conditions[key] = regex;
+    } else {
+      conditions[key] = val;
+    }
   }
 
+  if (conditions.year != null) {
+    conditions.year = JSON.parse(conditions.year);
+  }
   Article.find(conditions).then((articles) => res.json(articles));
 });
 

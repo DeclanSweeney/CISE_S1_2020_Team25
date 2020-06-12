@@ -10,20 +10,22 @@ import BootstrapTable from "react-bootstrap-table-next";
 import ToolkitProvider, { ColumnToggle } from "react-bootstrap-table2-toolkit";
 
 import { columns } from "./SearchTable";
+import "react-datepicker/dist/react-datepicker.css";
+import DatePicker from "react-datepicker";
+
+
+import { NavLink } from "reactstrap";
 
 const { ToggleList } = ColumnToggle;
 var count = 1;
 
 jQuery(document).ready(function ($) {
-  const max = 5;
   const min = 1;
 
   $(document).on("click", ".addBtn", function (e) {
     e.preventDefault();
-    if (count < max) {
-      $(".constraint:first").clone().appendTo(".constraints");
-      count++;
-    }
+    $(".constraint:first").clone().appendTo(".constraints");
+    count++;
   });
 
   $(document).on("click", ".removeBtn", function (e) {
@@ -37,42 +39,94 @@ jQuery(document).ready(function ($) {
 
 class SearchPage extends Component {
   onChange = (e) => {
-    console.log({ [e.target.name]: e.target.value });
     this.setState({ [e.target.name]: e.target.value });
+  };
+
+  state = {
+    startDate: new Date(1970, 0, 1),
+    endDate: new Date()
+  };
+
+  handleChangeDateFrom = date => {
+    this.setState({ startDate: date });
+  };
+
+  handleChangeDateTo = date => {
+    this.setState({ endDate: date });
   };
 
   onSubmit = (e) => {
     e.preventDefault();
 
-    var data = jQuery("form").serializeArray();
+    const dynamicParams = jQuery("form").serializeArray();
+    const staticParams = this.state;
 
-    console.log(JSON.stringify(data[3]));
+    var parameters = {};
 
-    console.log(count);
+    parameters.year = { $gte: staticParams.startDate.getFullYear(), $lte: staticParams.endDate.getFullYear() };
 
-    console.log("serialize: " + jQuery("form").serialize());
-    console.log("\r\n");
-    console.log(
-      "serializeArray: " + JSON.stringify(jQuery("form").serializeArray())
-    );
+    for (var index = 0; index < count; index += 3) {
+      var nameOfField = dynamicParams[index + 1].value;
+      var option = dynamicParams[index + 2].value;
+      var fieldValue = dynamicParams[index + 3].value;
 
-    const params = this.state;
+      if ((fieldValue !== null) && (fieldValue !== "")) {
+        var filter
+        if (option === "Contains") {
+          filter = new RegExp(".*" + fieldValue + ".*", 'i').toString();
+        } else if (option === "DoesNotContain") {
+          filter = new RegExp("^((?!" + fieldValue + ").)*$", 'i').toString();
+        } else if (option === "BeginsWIth") {
+          filter = new RegExp("^" + fieldValue).toString();
+        } else if (option === "EndsWith") {
+          filter = new RegExp(fieldValue + "$").toString();
+        } else if (option === "IsEqualTo") {
+          filter = fieldValue;
+        }
 
-    console.log(params);
-    console.log(this.props.getArticles(params));
+        parameters[nameOfField] = filter;
+      }
+    }
+
+    console.log(parameters);
+    this.props.getArticles(parameters);
   };
 
   render() {
-    const { articles } = this.props.article;
+    var monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+    var { articles } = this.props.article;
+
+    for (var key in articles) {
+      var originalMonth = monthNames[articles[key].month - 1];
+      var originalYear = articles[key].year;
+
+      var publishDate = "";
+
+      if ((originalMonth != null) && (originalMonth != "")) {
+        publishDate += originalMonth + ", ";
+      }
+      if ((originalYear != null) && (originalYear != "")) {
+        publishDate += originalYear;
+      }
+
+      articles[key].publishDate = publishDate;
+
+      var journal = articles[key].journal;
+      if ((journal != null) && (journal != "")) {
+        var url = "http://" + journal;
+        articles[key].url = <NavLink href={url} target="_blank">{journal}</NavLink>;
+      }
+    }
+
     return (
       <div>
         <Form onSubmit={this.onSubmit}>
           <FormGroup>
-            <Label>Title</Label>
+            <Label>Description</Label>
             <Input
               type="text"
-              name="title"
-              placeholder="Title"
+              name="description"
+              placeholder="Description"
               onChange={this.onChange}
             />
           </FormGroup>
@@ -80,23 +134,27 @@ class SearchPage extends Component {
           <Row>
             <Col>
               <FormGroup>
-                <Label>Date from</Label>
-                <Input
-                  type="date"
-                  name="dateFrom"
-                  placeholder="Date Published"
-                  onChange={this.onChange}
+                <Label>Date From</Label>
+                <br />
+                <DatePicker
+                  selected={this.state.startDate}
+                  onChange={this.handleChangeDateFrom}
+                  dateFormat="MM.yyyy"
+                  showMonthYearPicker
+                  className="form-control"
                 />
               </FormGroup>
             </Col>
             <Col>
               <FormGroup>
-                <Label>to</Label>
-                <Input
-                  type="date"
-                  name="dateTo"
-                  placeholder="Date Published"
-                  onChange={this.onChange}
+                <Label>Date To</Label>
+                <br />
+                <DatePicker
+                  selected={this.state.endDate}
+                  onChange={this.handleChangeDateTo}
+                  dateFormat="MM.yyyy"
+                  showMonthYearPicker
+                  className="form-control"
                 />
               </FormGroup>
             </Col>
@@ -114,8 +172,8 @@ class SearchPage extends Component {
                         onChange={this.onChange}
                       >
                         <option value="title">Article Title</option>
-                        <option value="source">Article Source</option>
-                        <option value="authors">Author</option>
+                        <option value="journal">Article Source</option>
+                        <option value="author">Author</option>
                       </Input>
                     </FormGroup>
                   </Col>
@@ -123,7 +181,7 @@ class SearchPage extends Component {
                     <FormGroup>
                       <Input
                         type="select"
-                        name="select"
+                        name="option"
                         onChange={this.onChange}
                       >
                         <option value="Contains">Contains</option>
