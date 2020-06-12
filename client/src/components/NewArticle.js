@@ -1,9 +1,12 @@
 import React, { Component } from "react";
-import { FormGroup, Label, Input, Form, Button } from "reactstrap";
+import { Row, Col, FormGroup, Label, Input, Form, Button } from "reactstrap";
 import PropTypes from "prop-types";
 
 import { connect } from "react-redux";
 import { addArticle } from "../actions/articleActions";
+import DatePicker from "react-datepicker";
+
+import "react-datepicker/dist/react-datepicker.css";
 
 class NewArticle extends Component {
   onChange = (e) => {
@@ -15,19 +18,42 @@ class NewArticle extends Component {
 
     var params = this.state;
 
-    var authors = params.authors;
-    var array = [];
-    if (authors.indexOf(',') !== -1) {
-      array = authors.split(',');
-    } else {
-      array[0] = authors;
-    }
+    var pageRange = params.fromPage + "--" + params.toPage;
 
-    params.authors = array;
+    params.pages = pageRange;
 
+    console.log(params.pages);
     console.log(params);
 
     this.props.addArticle(params);
+  };
+
+  state = {
+    startDate: new Date(),
+  };
+
+  handleChange = (date) => {
+    // var monthNames = new Array();
+    // monthNames[0] = "January";
+    // monthNames[1] = "February";
+    // monthNames[2] = "March";
+    // monthNames[3] = "April";
+    // monthNames[4] = "May";
+    // monthNames[5] = "June";
+    // monthNames[6] = "July";
+    // monthNames[7] = "August";
+    // monthNames[8] = "September";
+    // monthNames[9] = "October";
+    // monthNames[10] = "November";
+    // monthNames[11] = "December";
+    // var month = monthNames[date.getMonth()];
+
+    var year = date.getYear() + 1900;
+
+    this.setState({
+      month: date.getMonth() + 1,
+      year: year,
+    });
   };
 
   render() {
@@ -35,25 +61,109 @@ class NewArticle extends Component {
       <Form onSubmit={this.onSubmit}>
         <FormGroup>
           <Label>Title</Label>
-          <Input type="text" name="title" placeholder="Article Title" onChange={this.onChange} required />
+          <Input
+            type="text"
+            name="title"
+            placeholder="Article Title"
+            onChange={this.onChange}
+            required
+          />
         </FormGroup>
 
         <FormGroup>
           <Label>Authors</Label>
-          <Input type="string" name="authors" placeholder="Article Authors" onChange={this.onChange} required />
-          <small className="form-text text-muted">Please enter names comma separated e.g "John, Mark..."</small>
+          <Input
+            type="string"
+            name="author"
+            placeholder="Article Authors"
+            onChange={this.onChange}
+            required
+          />
+          <small className="form-text text-muted">
+            Please enter names comma separated e.g "John, Mark..."
+          </small>
         </FormGroup>
 
-        <FormGroup>
-          <Label>Journal</Label>
-          <Input type="string" name="journal" placeholder="Journal" onChange={this.onChange} required />
-        </FormGroup>
+        <Row>
+          <Col>
+            <FormGroup>
+              <Label>Journal</Label>
+              <Input
+                type="string"
+                name="journal"
+                placeholder="Journal"
+                onChange={this.onChange}
+                required
+              />
+            </FormGroup>
+          </Col>
+
+          <Col>
+            <FormGroup>
+              <Label>Volume</Label>
+              <Input
+                type="string"
+                name="volume"
+                placeholder="Volume"
+                onChange={this.onChange}
+                required
+              />
+            </FormGroup>
+          </Col>
+
+          <Col>
+            <FormGroup>
+              <Label>Version</Label>
+              <Input
+                type="string"
+                name="number"
+                placeholder="Version"
+                onChange={this.onChange}
+                required
+              />
+            </FormGroup>
+          </Col>
+        </Row>
+
+        <Row>
+          <Col>
+            <FormGroup>
+              <Label>From page</Label>
+              <Input
+                type="string"
+                name="fromPage"
+                placeholder="Page"
+                onChange={this.onChange}
+                required
+              />
+            </FormGroup>
+          </Col>
+
+          <Col>
+            <FormGroup>
+              <Label>To page</Label>
+              <Input
+                type="string"
+                name="toPage"
+                placeholder="Page"
+                onChange={this.onChange}
+                required
+              />
+            </FormGroup>
+          </Col>
+        </Row>
 
         <FormGroup>
           <Label>Date</Label>
-          <Input type="date" name="date" onChange={this.onChange} required />
+          <br />
+          <DatePicker
+            selected={this.state.startDate}
+            onChange={this.handleChange}
+            dateFormat="MM.yyyy"
+            showMonthYearPicker
+            className="form-control"
+          />
         </FormGroup>
-
         <Button color="primary">Submit Article</Button>
       </Form>
     );

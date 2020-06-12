@@ -16,13 +16,22 @@ const ArticleSchema = new Schema({
     required: true,
   },
   month: {
-    type: String,
+    type: Number,
     required: true,
   },
   year: {
     type: Number,
     required: true,
-  }
+  },
+  volume: {
+    type: Number,
+  },
+  number: {
+    type: Number,
+  },
+  pages: {
+    type: String,
+  },
 });
 
 module.exports = Article = mongoose.model("Article", ArticleSchema);
