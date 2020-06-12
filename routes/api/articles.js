@@ -22,8 +22,9 @@ router.get("/", (req, res) => {
     }
   }
 
-  conditions.year = JSON.parse(conditions.year);
-
+  if (conditions.year != null) {
+    conditions.year = JSON.parse(conditions.year);
+  }
   Article.find(conditions).then((articles) => res.json(articles));
 });
 
