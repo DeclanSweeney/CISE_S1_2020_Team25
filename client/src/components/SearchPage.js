@@ -100,16 +100,16 @@ class SearchPage extends Component {
       var originalMonth = monthNames[articles[key].month - 1];
       var originalYear = articles[key].year;
 
-      var publishDate = "";
+      var newPublishDate = "";
 
       if ((originalMonth != null) && (originalMonth != "")) {
-        publishDate += originalMonth + ", ";
+        newPublishDate += originalMonth + ", ";
       }
       if ((originalYear != null) && (originalYear != "")) {
-        publishDate += originalYear;
+        newPublishDate += originalYear;
       }
 
-      articles[key].publishDate = publishDate;
+      articles[key].publishDate = newPublishDate;
 
       var journal = articles[key].journal;
       if ((journal != null) && (journal != "")) {
