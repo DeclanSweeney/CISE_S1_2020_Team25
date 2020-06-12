@@ -73,9 +73,9 @@ class SearchPage extends Component {
       if ((fieldValue !== null) && (fieldValue !== "")) {
         var filter
         if (option === "Contains") {
-          filter = new RegExp(".*" + fieldValue + ".*").toString();
+          filter = new RegExp(".*" + fieldValue + ".*", 'i').toString();
         } else if (option === "DoesNotContain") {
-          filter = new RegExp("^((?!" + fieldValue + ").)*$").toString();
+          filter = new RegExp("^((?!" + fieldValue + ").)*$", 'i').toString();
         } else if (option === "BeginsWIth") {
           filter = new RegExp("^" + fieldValue).toString();
         } else if (option === "EndsWith") {
