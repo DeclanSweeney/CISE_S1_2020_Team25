@@ -109,6 +109,7 @@ class SearchPage extends Component {
         newPublishDate += originalYear;
       }
 
+      articles[key] = {...articles[key]};
       articles[key].publishDate = newPublishDate;
 
       var journal = articles[key].journal;
