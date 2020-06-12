@@ -34,7 +34,7 @@ jQuery(document).ready(function ($) {
 
 class SearchPage extends Component {
   onChange = (e) => {
-    console.log({ [e.target.name]: e.target.value });
+    this.setState({ [e.target.name]: e.target.value });
   };
 
   onSubmit = (e) => {
@@ -44,12 +44,12 @@ class SearchPage extends Component {
 
     var parameters = {};
     var pos;
-    // for (pos = 0; pos < 3; pos++) {
-    //   var val = params[pos].value;
-    //   if ((val !== null) && (val !== "")) {
-    //     parameters[params[pos].name] = params[pos].value;
-    //   }
-    // }
+    for (pos = 0; pos < 3; pos++) {
+      var val = params[pos].value;
+      if ((val !== null) && (val !== "")) {
+        parameters[params[pos].name] = params[pos].value;
+      }
+    }
 
     for (var index = 0; index < count; index += 3) {
       var nameOfField = params[index + 3].value;
@@ -61,13 +61,13 @@ class SearchPage extends Component {
         var filter
 
         if (option === "Contains") {
-          filter = "" + new RegExp(".*" + fieldValue + ".*");
+          filter = new RegExp(".*" + fieldValue + ".*").toString();
         } else if (option === "DoesNotContain") {
-          filter = "" + new RegExp("^((?!" + fieldValue + ").)*$");
+          filter = new RegExp("^((?!" + fieldValue + ").)*$").toString();
         } else if (option === "BeginsWIth") {
-          filter = "" + new RegExp("^" + fieldValue);
+          filter = new RegExp("^" + fieldValue).toString();
         } else if (option === "EndsWith") {
-          filter = "" + new RegExp(fieldValue + "$");
+          filter = new RegExp(fieldValue + "$").toString();
         } else if (option === "IsEqualTo") {
           filter = fieldValue;
         }
@@ -132,7 +132,7 @@ class SearchPage extends Component {
                         onChange={this.onChange}
                       >
                         <option value="title">Article Title</option>
-                        <option value="source">Article Source</option>
+                        <option value="journal">Article Source</option>
                         <option value="author">Author</option>
                       </Input>
                     </FormGroup>
