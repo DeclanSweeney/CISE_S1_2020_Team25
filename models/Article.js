@@ -22,7 +22,16 @@ const ArticleSchema = new Schema({
   year: {
     type: Number,
     required: true,
-  }
+  },
+  volume: {
+    type: Number,
+  },
+  number: {
+    type: Number,
+  },
+  pages: {
+    type: String,
+  },
 });
 
 module.exports = Article = mongoose.model("Article", ArticleSchema);
