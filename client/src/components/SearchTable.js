@@ -10,7 +10,7 @@ export const columns = [
     sort: "true",
   },
   {
-    dataField: "journal",
+    dataField: "url",
     text: "Journal",
     sort: "true",
   },
@@ -20,7 +20,7 @@ export const columns = [
     sort: "true",
   },
   {
-    dataField: "year",
+    dataField: "publishDate",
     text: "Published",
     sort: "true",
   },

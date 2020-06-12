@@ -13,6 +13,9 @@ import { columns } from "./SearchTable";
 import "react-datepicker/dist/react-datepicker.css";
 import DatePicker from "react-datepicker";
 
+
+import { NavLink } from "reactstrap";
+
 const { ToggleList } = ColumnToggle;
 var count = 1;
 
@@ -92,7 +95,31 @@ class SearchPage extends Component {
   };
 
   render() {
-    const { articles } = this.props.article;
+    var monthNames = new Array("January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December");
+    var { articles } = this.props.article;
+
+    for (var key in articles) {
+      var originalMonth = monthNames[articles[key].month - 1];
+      var originalYear = articles[key].year;
+
+      var publishDate = "";
+
+      if ((originalMonth != null) && (originalMonth != "")) {
+        publishDate += originalMonth + ", ";
+      }
+      if ((originalYear != null) && (originalYear != "")) {
+        publishDate += originalYear;
+      }
+
+      articles[key].publishDate = publishDate;
+
+      var journal = articles[key].journal;
+      if ((journal != null) && (journal != "")) {
+        var url = "http://" + journal;
+        articles[key].url = <NavLink href={url} target="_blank">{journal}</NavLink>;
+      }
+    }
+
     return (
       <div>
         <Form onSubmit={this.onSubmit}>
