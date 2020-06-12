@@ -11,18 +11,18 @@ router.get("/", (req, res) => {
   var conditions = {};
   for (var key of Object.keys(obj)) {
     var stringified = JSON.stringify(obj);
-    
+
     const regex = new RegExp(JSON.parse(stringified)[key].slice(1, -1));
-    
+
     var val = obj[key];
-    if ((val[0] == '/') && (val[val.length-1] == '/')) {
+    if ((val[0] == '/') && (val[val.length - 1] == '/')) {
       conditions[key] = regex;
-    } else {      console.log("Nope");
+    } else {
       conditions[key] = val;
     }
   }
 
-  console.log(conditions);
+  conditions.year = JSON.parse(conditions.year);
 
   Article.find(conditions).then((articles) => res.json(articles));
 });

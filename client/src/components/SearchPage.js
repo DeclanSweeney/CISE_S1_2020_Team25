@@ -10,6 +10,8 @@ import BootstrapTable from "react-bootstrap-table-next";
 import ToolkitProvider, { ColumnToggle } from "react-bootstrap-table2-toolkit";
 
 import { columns } from "./SearchTable";
+import "react-datepicker/dist/react-datepicker.css";
+import DatePicker from "react-datepicker";
 
 const { ToggleList } = ColumnToggle;
 var count = 1;
@@ -37,24 +39,33 @@ class SearchPage extends Component {
     this.setState({ [e.target.name]: e.target.value });
   };
 
+  state = {
+    startDate: new Date(1970, 0, 1),
+    endDate: new Date()
+  };
+
+  handleChangeDateFrom = date => {
+    this.setState({ startDate: date });
+  };
+
+  handleChangeDateTo = date => {
+    this.setState({ endDate: date });
+  };
+
   onSubmit = (e) => {
     e.preventDefault();
 
-    const params = jQuery("form").serializeArray();
+    const dynamicParams = jQuery("form").serializeArray();
+    const staticParams = this.state;
 
     var parameters = {};
-    var pos;
-    for (pos = 0; pos < 3; pos++) {
-      var val = params[pos].value;
-      if ((val !== null) && (val !== "")) {
-        parameters[params[pos].name] = params[pos].value;
-      }
-    }
 
-    for (var index = 0; index < count; index += 3) {
-      var nameOfField = params[index + 3].value;
-      var option = params[index + 4].value;
-      var fieldValue = params[index + 5].value;
+    parameters.year = { $gte: staticParams.startDate.getFullYear(), $lte: staticParams.endDate.getFullYear() };
+
+    for (var index = 3; index < count; index += 3) {
+      var nameOfField = dynamicParams[index + 3].value;
+      var option = dynamicParams[index + 4].value;
+      var fieldValue = dynamicParams[index + 5].value;
 
       if ((fieldValue !== null) && (fieldValue !== "")) {
 
@@ -98,23 +109,27 @@ class SearchPage extends Component {
           <Row>
             <Col>
               <FormGroup>
-                <Label>Date from</Label>
-                <Input
-                  type="date"
-                  name="dateFrom"
-                  placeholder="Date Published"
-                  onChange={this.onChange}
+                <Label>Date From</Label>
+                <br />
+                <DatePicker
+                  selected={this.state.startDate}
+                  onChange={this.handleChangeDateFrom}
+                  dateFormat="MM.yyyy"
+                  showMonthYearPicker
+                  className="form-control"
                 />
               </FormGroup>
             </Col>
             <Col>
               <FormGroup>
-                <Label>to</Label>
-                <Input
-                  type="date"
-                  name="dateTo"
-                  placeholder="Date Published"
-                  onChange={this.onChange}
+                <Label>Date To</Label>
+                <br />
+                <DatePicker
+                  selected={this.state.endDate}
+                  onChange={this.handleChangeDateTo}
+                  dateFormat="MM.yyyy"
+                  showMonthYearPicker
+                  className="form-control"
                 />
               </FormGroup>
             </Col>
