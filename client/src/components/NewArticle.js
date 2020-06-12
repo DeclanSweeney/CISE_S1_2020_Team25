@@ -4,7 +4,9 @@ import PropTypes from "prop-types";
 
 import { connect } from "react-redux";
 import { addArticle } from "../actions/articleActions";
-import MonthPicker from "./DatePicker";
+import DatePicker from "react-datepicker";
+
+import "react-datepicker/dist/react-datepicker.css";
 
 class NewArticle extends Component {
   onChange = (e) => {
@@ -20,9 +22,38 @@ class NewArticle extends Component {
 
     params.pages = pageRange;
 
+    console.log(params.pages);
     console.log(params);
 
     this.props.addArticle(params);
+  };
+
+  state = {
+    startDate: new Date(),
+  };
+
+  handleChange = (date) => {
+    // var monthNames = new Array();
+    // monthNames[0] = "January";
+    // monthNames[1] = "February";
+    // monthNames[2] = "March";
+    // monthNames[3] = "April";
+    // monthNames[4] = "May";
+    // monthNames[5] = "June";
+    // monthNames[6] = "July";
+    // monthNames[7] = "August";
+    // monthNames[8] = "September";
+    // monthNames[9] = "October";
+    // monthNames[10] = "November";
+    // monthNames[11] = "December";
+    // var month = monthNames[date.getMonth()];
+
+    var year = date.getYear() + 1900;
+
+    this.setState({
+      month: date.getMonth() + 1,
+      year: year,
+    });
   };
 
   render() {
@@ -125,7 +156,13 @@ class NewArticle extends Component {
         <FormGroup>
           <Label>Date</Label>
           <br />
-          <MonthPicker />
+          <DatePicker
+            selected={this.state.startDate}
+            onChange={this.handleChange}
+            dateFormat="MM.yyyy"
+            showMonthYearPicker
+            className="form-control"
+          />
         </FormGroup>
         <Button color="primary">Submit Article</Button>
       </Form>
